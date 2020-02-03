@@ -42,6 +42,7 @@ class CoroutineServer
 
     public function poll(CoroutineScheduler $scheduler)
     {
+        var_dump($this->reads);
         if (empty($this->reads) && empty($this->writes)) {
             return $scheduler->newCoroutine($this->poll($scheduler));
         }
@@ -138,7 +139,7 @@ class HttpServer extends CoroutineServer
     public function requestHandle(CoroutineScheduler $scheduler)
     {
         while (1) {
-            yield $scheduler->newCoroutine($this->response(yield $this->socketManager->accept()));
+            yield $this->response(yield $this->socketManager->accept());
         }
     }
 
