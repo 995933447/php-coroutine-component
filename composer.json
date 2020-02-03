@@ -1,0 +1,18 @@
+{
+    "name": "bobby/coroutine",
+    "description": "php yield 关键字实现的半自动化协程.参考实践自鸟哥的博客:http://www.laruence.com/2015/05/28/3038.html",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bobby",
+            "email": "995933447@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Bobby\\Coroutine\\": "src/"
+        }
+    }
+}
