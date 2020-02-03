@@ -1,4 +1,5 @@
 <?php
+// 利用http服务器演示堆栈式协程，但是要处理完一个请求才能进行下个accept.改良版请看http_server2.php
 require __DIR__ . '/../vendor/autoload.php';
 
 use Bobby\Coroutine\Coroutine;
@@ -42,7 +43,6 @@ class CoroutineServer
 
     public function poll(CoroutineScheduler $scheduler)
     {
-        var_dump($this->reads);
         if (empty($this->reads) && empty($this->writes)) {
             return $scheduler->newCoroutine($this->poll($scheduler));
         }
@@ -101,6 +101,7 @@ class CoroutineSocket
 
     public function accept()
     {
+        echo "accept\n";
         yield $this->server->registerReadEvent($this->socket);
         $readSocket = new CoroutineSocket(stream_socket_accept($this->socket));
         $readSocket->bindServer($this->server);
@@ -109,6 +110,7 @@ class CoroutineSocket
 
     public function read()
     {
+        echo "read\n";
         stream_set_blocking($this->socket, 0);
         yield $this->server->registerReadEvent($this->socket);
         yield new CoroutineReturn(stream_get_contents($this->socket));
@@ -116,6 +118,7 @@ class CoroutineSocket
 
     public function write(string $message)
     {
+        echo "write\n";
         yield $this->server->registerWriteEvent($this->socket);
         yield fwrite($this->socket, $message);
     }

@@ -37,7 +37,9 @@ class CoroutineScheduler
         while (!$this->isEmpty()) {
             $coroutine = $this->coroutineQueue->dequeue();
             $value = $coroutine->run();
-
+            foreach ($this->coroutineQueue as $c) {
+                var_dump($c);
+            }
             if ($value instanceof CoroutineInterrupter) {
                 $value($this, $coroutine);
                 continue;

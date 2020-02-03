@@ -29,7 +29,7 @@ class Coroutine
 
             if ($value instanceof Generator) {
                 $stack->push($generator);
-                $generator = $value;
+                $generator = $value;     
                 continue;
             }
 
